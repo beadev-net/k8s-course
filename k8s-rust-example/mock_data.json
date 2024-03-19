@@ -1,0 +1,39 @@
+{
+  "/register": {
+    "POST": {
+      "$.request": {
+        "$.body": {
+          "name": "John Doe"
+        }
+      },
+      "$.response": {
+        "$.body": {
+          "name": "John Doe",
+          "age": 30,
+          "address": {
+            "street": "123 Main St",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345"
+          }
+        }
+      }
+    }
+  },
+  "/video": {
+    "GET": {
+      "$.response": {
+        "$.content-type": "video/mp4",
+        "$.file": "./sample.mp4"
+      }
+    }
+  },
+  "/image": {
+    "GET": {
+      "$.response": {
+        "$.content-type": "image/webp",
+        "$.file": "https://i.pinimg.com/236x/83/cc/c7/83ccc7c0dd14a53fc0380a28f88edf7a.jpg"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "rust_project",
+  "version": "1.0.0",
+  "description": "**What is this project?** - It is an API Mock Request / Response",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinicinbgs/rust-learning.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinicinbgs/rust-learning/issues"
+  },
+  "homepage": "https://github.com/vinicinbgs/rust-learning#readme",
+  "devDependencies": {
+    "husky": "^8.0.1"
+  }
+}

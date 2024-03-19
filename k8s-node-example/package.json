@@ -1,0 +1,17 @@
+{
+  "name": "k8s-node-example",
+  "version": "1.0.0",
+  "description": "K8s Node Example",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "author": "Vinicius M Dutra",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Video Player</title>
+</head>
+
+<body>
+    <video id="videoPlayer" controls autoplay></video>
+
+    <div id="imagePlayer"></div>
+</body>
+<script>
+    // Get a reference to the video element
+    const video = document.getElementById('videoPlayer');
+
+    // Set the source URL of the video
+    video.src = 'http://localhost/my-app/video';
+
+    const image = new Image();
+
+    fetch('http://localhost/my-app/image').then(async (r) => {
+        image.src = await r.text();
+        document.getElementById('imagePlayer').appendChild(image);
+    })
+</script>
+</html>

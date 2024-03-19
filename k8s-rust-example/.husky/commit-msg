@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+commitMsg="$(cat $1)"
+
+messagePattern="^(feat|bugfix|refactor|docs|hotfix|chore): .*"
+
+if ! [[ $commitMsg =~ $messagePattern ]]; then
+    echo "\033[0;31m🚨 Wrong commit message! \033[m"
+    exit 1
+fi;

@@ -1,0 +1,54 @@
+version: "3.3"
+
+services:
+  rust:
+    build: .
+    restart: always
+    ports:
+      - "7878:7878"
+    logging:
+      driver: loki
+      options:
+        loki-url: http://localhost:3100/loki/api/v1/push
+    networks:
+     - p_network
+
+  loki:
+    image: grafana/loki:2.5.0
+    ports:
+      - "3100:3100"
+    volumes:
+      - .docker/loki:/etc/loki
+    command: -config.file=/etc/loki/loki.config.yml
+    networks:
+      - p_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "loki_log"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - .docker/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    networks:
+      - p_network
+
+  # mysql:
+  #   image: arm64v8/mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   networks:
+  #    - rust_network
+
+networks:
+  p_network:
+    driver: bridge

@@ -1,0 +1,25 @@
+# Build folder
+/target
+.env
+
+# IDEs
+.idea
+.vscode
+
+# Logs
+package.lock
+yarn.lock
+.DS_Store
+
+# OS generated files
+node_modules
+
+# Coverage directory used by tools like istanbul
+default_*.profraw
+
+# Cloud Builders
+cloud-builders-community
+
+# Asset Files
+/src/*.mp4
+!/src/sample.mp4
