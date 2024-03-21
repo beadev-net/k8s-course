@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: myapp-external-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: nginx
   ports:
   - port: 8080
     targetPort: 80
     protocol: TCP
+    nodePort: 30082

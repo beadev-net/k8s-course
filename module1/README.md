@@ -3,6 +3,17 @@
 - Ter o Helm instalado (opcional, mas recomendado para instalar o Ingress Controller).
 - Ter um cluster Kubernetes rodando.
 
+Abra o terminal e digite:
+```sh
+eval $(minikube -p minikube docker-env)
+```
+
+Cluster Components
+```sh
+minikube addons enable metrics-server
+minikube dashboard
+```
+
 ## Passo 1: Criar Aplicação
 
 ### Definir um Deployment

@@ -1,4 +1,8 @@
 # Getting Started
+```sh
+eval $(minikube -p minikube docker-env)
+```
+
 
 ### Names
 

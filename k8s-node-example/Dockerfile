@@ -1,5 +1,7 @@
 FROM node:lts-alpine3.19
 
+RUN apk update && apk add curl
+
 # Create app directory 
 RUN mkdir -p /usr/src/app
 

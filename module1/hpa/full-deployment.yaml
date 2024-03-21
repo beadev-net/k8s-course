@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: my-app-container
-        image: node-hpa:1.0
+        image: node-hpa:1.1
         ports:
         - containerPort: 7878
         resources:
@@ -75,8 +75,8 @@ metadata:
   name: my-app-ingress
   namespace: mock
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2 # Redireciona a requisição para a raiz do serviço
-    # nginx.ingress.kubernetes.io/rewrite-target: / # Redireciona a requisição para a raiz do serviço
+    #nginx.ingress.kubernetes.io/rewrite-target: /$2 # Redireciona a requisição para a raiz do serviço
+    nginx.ingress.kubernetes.io/rewrite-target: / # Redireciona a requisição para a raiz do serviço
 spec:
   ingressClassName: nginx
   rules:
