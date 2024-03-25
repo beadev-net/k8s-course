@@ -14,4 +14,8 @@ data:
         location /ready {
             return 200 "OK";
         }
+
+        location /turma {
+            return 200 "<h1>Turma DevOps</h1>";
+        }
     }
