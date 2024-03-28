@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example-job
+  namespace: aula4
+spec:
+  template:
+    metadata:
+      name: example-pod
+    spec:
+      containers:
+      - name: example-container
+        image: busybox
+        command: ["echo", "Hello from the Job!"]
+      restartPolicy: Never
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: example-cronjob
+  namespace: aula4
+spec:
+  schedule: "*/1 * * * *" # Executa a cada minuto
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: example-cronjob-pod
+        spec:
+          containers:
+          - name: example-cronjob-container
+            image: busybox
+            command: ["echo", "Hello from the CronJob!"]
+          restartPolicy: Never

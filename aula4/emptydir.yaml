@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  namespace: aula4
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      volumes:
+      - name: data-volume
+        emptyDir: {}

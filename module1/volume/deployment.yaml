@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-claim
+spec:
+  storageClassName: standard
+  selector:
+    matchLabels:
+      app: vol
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: busybox
+  name: busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - image: busybox:latest
+        name: busybox
+        command: ["/bin/sh"]
+        args: ["-c","echo 'At Work!' >> /usr/log.txt; while true; do date >> /usr/log.txt; sleep 10; done;"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: nfs-volume
+            mountPath: "/usr"
+      volumes:
+        - name: nfs-volume
+          nfs:
+            server: 192.168.0.1
+            path: "/exports"

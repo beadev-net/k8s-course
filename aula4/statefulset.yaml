@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: example-statefulset
+  namespace: aula4
+spec:
+  serviceName: "example-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      namespace: aula4
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: data
+            mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      namespace: aula4
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+      persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  namespace: aula4
+spec:
+  clusterIP: None # Headless Service
+  selector:
+    app: example
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+
+# curl example-statefulset-0.example-service
+# curl example-statefulset-1.example-service
+# curl example-statefulset-2.example-service
+
+# curl example-statefulset-2.example-service.aula4.svc.cluster.local (FQDN)

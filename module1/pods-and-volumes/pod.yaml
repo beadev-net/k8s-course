@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   # namespace: modulo1
-  name: example-pod
+  name: example-pod-1
 spec:
   containers:
   - name: example-container
@@ -16,23 +16,23 @@ spec:
       limits:
         memory: "128Mi"
         cpu: "500m"
-    livenessProbe: # Sonda de ta Vivo?
-      httpGet:
-        path: /healthz
-        port: 80
-      initialDelaySeconds: 10
-      periodSeconds: 10
-    readinessProbe: # Sonda de ta Preparado?
-      httpGet:
-        path: /ready
-        port: 80
-      initialDelaySeconds: 15
-      periodSeconds: 5
-    volumeMounts:
-    - name: nginx-config-volume
-      mountPath: /etc/nginx/conf.d
+    # livenessProbe: # Sonda de ta Vivo?
+    #   httpGet:
+    #     path: /healthz
+    #     port: 80
+    #   initialDelaySeconds: 10
+    #   periodSeconds: 10
+    # readinessProbe: # Sonda de ta Preparado?
+    #   httpGet:
+    #     path: /ready
+    #     port: 80
+    #   initialDelaySeconds: 15
+    #   periodSeconds: 5
+  #   volumeMounts:
+  #   - name: nginx-config-volume
+  #     mountPath: /etc/nginx/conf.d
   
-  volumes:
-  - name: nginx-config-volume
-    configMap:
-      name: nginx-config
+  # volumes:
+  # - name: nginx-config-volume
+  #   configMap:
+  #     name: nginx-config

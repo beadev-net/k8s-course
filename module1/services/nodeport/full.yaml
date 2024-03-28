@@ -7,7 +7,8 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: nginx:stable
+    image: rust:1.0
+    imagePullPolicy: IfNotPresent
     ports:
       - containerPort: 80
         name: http-web-svc

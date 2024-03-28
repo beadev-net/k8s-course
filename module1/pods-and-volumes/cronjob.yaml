@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello-world-cronjob
+spec:
+  schedule: "*/1 * * * *" # Runs every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: busybox
+            command: ["echo", "Hello, World!"]
+          restartPolicy: Never
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1

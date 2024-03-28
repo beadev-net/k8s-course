@@ -15,11 +15,11 @@
     const video = document.getElementById('videoPlayer');
 
     // Set the source URL of the video
-    video.src = 'http://localhost/my-app/video';
+    // video.src = 'http://localhost/my-app/video';
 
     const image = new Image();
 
-    fetch('http://localhost/my-app/image').then(async (r) => {
+    fetch('http://localhost:30082/image').then(async (r) => {
         image.src = await r.text();
         document.getElementById('imagePlayer').appendChild(image);
     })
