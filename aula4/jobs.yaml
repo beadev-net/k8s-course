@@ -11,8 +11,8 @@ spec:
       containers:
       - name: example-container
         image: busybox
-        command: ["echo", "Hello from the Job!"]
-      restartPolicy: Never
+        command: ["echodmaodma", "Hello from the Job!"]
+      restartPolicy: Never   
 ---
 apiVersion: batch/v1
 kind: CronJob

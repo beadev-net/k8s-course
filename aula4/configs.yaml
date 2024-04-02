@@ -4,7 +4,7 @@ metadata:
   namespace: aula4
   name: nginx-config
 data:
-  nginx.conf: |
+  custom-nginx.conf: |
     server {
         listen 80;
         server_name example.com;
@@ -35,30 +35,34 @@ spec:
   containers:
   - name: nginx-container
     image: nginx:latest
+    env:
+    - name: DB_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: db-secret
+          key: username
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: db-secret
+          key: password
+    - name: URL
+      valueFrom:
+        configMapKeyRef:
+          name: nginx-config
+          key: url
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
     volumeMounts:
     - name: nginx-config-volume
-      mountPath: /etc/nginx/nginx.conf
-      subPath: nginx.conf
+      mountPath: /etc/nginx/nginx-custom.conf
+      subPath: nginx-custom.conf
   volumes:
   - name: nginx-config-volume
     configMap:
       name: nginx-config
-  - name: db-secret-volume
-    secret:
-      secretName: db-secret
-  env:
-  - name: DB_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: db-secret
-        key: username
-  - name: DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: db-secret
-        key: password
-  - name: URL
-    valueFrom:
-      configMapKeyRef:
-        name: nginx-config
-        key: url

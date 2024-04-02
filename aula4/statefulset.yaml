@@ -5,7 +5,7 @@ metadata:
   namespace: aula4
 spec:
   serviceName: "example-service"
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: example
@@ -32,7 +32,6 @@ spec:
       resources:
         requests:
           storage: 1Gi
-      persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
 kind: Service

@@ -4,7 +4,7 @@ metadata:
   name: example-deployment
   namespace: aula4
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: example
@@ -14,10 +14,35 @@ spec:
         app: example
     spec:
       containers:
-      - name: example-container
+      - name: example-container-1
         image: nginx:latest
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.1"
+            memory: "128Mi"
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      - name: example-container-2
+        image: busybox:latest
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "tail -f /dev/null"
+        ports:
+        - containerPort: 8888
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.1"
+            memory: "128Mi"
         volumeMounts:
         - name: data-volume
           mountPath: /data
