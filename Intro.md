@@ -51,7 +51,7 @@
 - Schedule Jobs ✅
 - Timezone
 - Concurrency Policy
-- History Limit
+- History Limit ✅
 
 ## DaemonSets ❌
 - Run a copy of a Pod on each Node
@@ -85,3 +85,8 @@
 - Endpoint ❌
 - EndpointSlices ❌
 - IpTables ❌
+
+# Security
+- Pod Security Policy ❌
+- Network Policy ❌
+- RBAC ❌
