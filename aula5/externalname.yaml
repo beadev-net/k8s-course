@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: external-pod
+  namespace: aula5
+spec:
+  containers:
+  - name: external-pod
+    image: nginx
+    ports:
+    - containerPort: 80
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-svc-google
+  namespace: aula5
+spec:
+  type: ExternalName
+  externalName: httpbin.org
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 443

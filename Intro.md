@@ -21,7 +21,7 @@
 - Quality of Service (QoS) | `Best Effort`, `Burstable`, `Guaranteed` ✅
 - ImagePullPolicy | `Always`, `IfNotPresent`, `Never` ✅
 - Resource Requests and Limits ✅
-- Horizontal Pod Autoscaler ❌
+- Horizontal Pod Autoscaler ✅
 
 ## Deployments
 - ReplicaSet ✅
@@ -63,9 +63,9 @@
 - ClusterIP ✅
 - NodePort ✅
 - Round Robin na prática gerenciado pelo K8s ✅
-- LoadBalancer ❌
-- ExternalName ❌
-- Headless ❌
+- LoadBalancer ✅
+- ExternalName ✅
+- Headless ✅
 
 # Volumes:
 - EmptyDir ✅
@@ -81,7 +81,7 @@
 # Network
 - Pod to Pod (FQDN - FULL QUALIFIED DOMAIN NAME - ip-do-pod.namespace.svc.cluster.local) ✅
 - Pod to Service (FQDN - service.namespace.svc.cluster.local) ✅
-- Ingress ❌
+- Ingress ✅
 - Endpoint ❌
 - EndpointSlices ❌
 - IpTables ❌
