@@ -17,5 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia todo o conteúdo do diretório atual para o diretório de trabalho
 COPY ./src .
 
+RUN chmod 777 wait-for-it.sh
+
 # Comando para iniciar a aplicação
 CMD ["python", "app.py"]

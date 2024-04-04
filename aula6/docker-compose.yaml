@@ -1,13 +1,14 @@
 services:
   api:
     build: ./api
+    command: ["./wait-for-it.sh", "mysql-master:3306", "--", "python", "app.py"]
     ports:
       - "8000:5000"
     depends_on:
       - redis
-      - mysql
+      - mysql-master
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=mysql-master
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
@@ -20,7 +21,7 @@ services:
     ports:
       - "6379:6379"
 
-  mysql:
+  mysql-master:
     image: mysql:latest
     command: --server-id=1 --log-bin=master-bin --binlog-format=ROW --default-authentication-plugin=mysql_native_password
     ports:
@@ -28,12 +29,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: your_password
       MYSQL_DATABASE: mydatabase
-      MYSQL_REPLICATION_USER: replication_user
-      MYSQL_REPLICATION_PASSWORD: replication_password
     volumes:
       - mysql-master-data:/var/lib/mysql
   
-  mysql-slave:
+  mysql-replica:
     image: mysql:latest
     command: --server-id=2 --default-authentication-plugin=mysql_native_password
     ports:
@@ -42,7 +41,7 @@ services:
       MYSQL_ROOT_PASSWORD: your_password
       MYSQL_DATABASE: mydatabase
     volumes:
-      - mysql-slave-data:/var/lib/mysql
+      - mysql-replica-data:/var/lib/mysql
 
   frontend:
     build: ./frontend
@@ -55,14 +54,15 @@ services:
 
   consumer:
     build: ./consumer
+    command: ["./wait-for-it.sh", "mysql-master:3306", "--", "python", "app.py"]
     deploy:
       mode: replicated
       replicas: 1
     depends_on:
       - api
-      - mysql
+      - mysql-master
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=mysql-master
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
@@ -73,12 +73,13 @@ services:
 
   job-csv:
     build: ./job-csv
+    command: ["./wait-for-it.sh", "mysql-slave:3306", "--", "python", "app.py"]
     depends_on:
-      - mysql-slave
+      - mysql-replica
     volumes:
       - ./job-csv/src:/app
     environment:
-      - DB_HOST=mysql-slave
+      - DB_HOST=mysql-replica
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
@@ -86,17 +87,23 @@ services:
     
   job-migration:
     build: ./job-migration
+    command: ["./wait-for-it.sh", "mysql-master:3306", "--", "python", "app.py"]
     depends_on:
-      - mysql
+      - mysql-master
     volumes:
       - ./job-migration/src:/app
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=mysql-master
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
       - DB_PORT=3306
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
 
 volumes:
   mysql-master-data:
-  mysql-slave-data:
+  mysql-replica-data:
