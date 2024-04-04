@@ -1,14 +1,20 @@
 # Use the official Nginx image as a base
 FROM nginx:latest
 
-# Remove default Nginx static assets
+ARG API_URL=http://localhost:8000
+
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copie o index.html para o diretório de Nginx static assets
 COPY src/ /usr/share/nginx/html
 
-# Exponha a porta 80 para acesso externo
+RUN sed -i "s|\${API_URL}|$API_URL|g" /usr/share/nginx/html/index.html
+RUN sed -i "s|\${API_URL}|$API_URL|g" /usr/share/nginx/html/vote.html
+
 EXPOSE 80
 
-# Comando para iniciar o Nginx quando o contêiner for iniciado
 CMD ["nginx", "-g", "daemon off;"]
+
+####
+# Usage Example:
+# > docker compose build frontend --build-arg API_URL=http://localhost:8888
+####

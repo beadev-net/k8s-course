@@ -22,17 +22,32 @@ services:
 
   mysql:
     image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
+    command: --server-id=1 --log-bin=master-bin --binlog-format=ROW --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: your_password
       MYSQL_DATABASE: mydatabase
+      MYSQL_REPLICATION_USER: replication_user
+      MYSQL_REPLICATION_PASSWORD: replication_password
+    volumes:
+      - mysql-master-data:/var/lib/mysql
+  
+  mysql-slave:
+    image: mysql:latest
+    command: --server-id=2 --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - mysql-slave-data:/var/lib/mysql
 
   frontend:
     build: ./frontend
-    volumes:
-      - ./frontend/src:/usr/share/nginx/html
+    # volumes: # Uncomment this line to use local files
+    #   - ./frontend/src:/usr/share/nginx/html
     ports:
       - "8081:80"
     depends_on:
@@ -42,27 +57,46 @@ services:
     build: ./consumer
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
     depends_on:
       - api
+      - mysql
     environment:
       - DB_HOST=mysql
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
+      - DB_PORT=3306
       - REDIS_HOST=redis
     volumes:
       - ./consumer/src:/app
 
-  job:
-    build: ./job
+  job-csv:
+    build: ./job-csv
     depends_on:
-      - api
+      - mysql-slave
     volumes:
-      - ./job/src:/app
+      - ./job-csv/src:/app
+    environment:
+      - DB_HOST=mysql-slave
+      - DB_USER=root
+      - DB_PASSWORD=your_password
+      - DB_DATABASE=mydatabase
+      - DB_PORT=3306
+    
+  job-migration:
+    build: ./job-migration
+    depends_on:
+      - mysql
+    volumes:
+      - ./job-migration/src:/app
     environment:
       - DB_HOST=mysql
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
-      - REDIS_HOST=redis
+      - DB_PORT=3306
+
+volumes:
+  mysql-master-data:
+  mysql-slave-data:

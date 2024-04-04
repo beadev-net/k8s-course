@@ -13,7 +13,8 @@ db = mysql.connector.connect(
   host=os.getenv("DB_HOST", "mysql"),
   user=os.getenv("DB_USER", "user"),
   passwd=os.getenv("DB_PASSWORD", "your_password"),
-  database=os.getenv("DB_DATABASE", "mydatabase")
+  database=os.getenv("DB_DATABASE", "mydatabase"),
+  port=os.getenv("DB_PORT", "3306")
 )
 
 # Função para escutar a fila e registrar os votos no MySQL

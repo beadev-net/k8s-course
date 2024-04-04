@@ -18,7 +18,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             const surveysList = document.getElementById('surveys-list');
 
-            const apiUrl = 'http://localhost:8000';
+            // const apiUrl = 'http://localhost:8000';
+            const apiUrl = '${API_URL}';
 
             fetch(`${apiUrl}/surveys`)
                 .then(response => response.json())
