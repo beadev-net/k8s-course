@@ -66,25 +66,64 @@ sh mysqld.sh
 ## Solucionando o problema
 
 #### api
-  - 
+  - Kubernetes
+    - Pod
+    - Deployment
+    - Service (ClusterIP)
+    - Secrets
+    - ConfigMap
+  - Imagem Docker
 
 #### frontend
-  -
+  - Kubernetes
+    - Pod
+    - Deployment
+    - Service (NodePort)
+  - Imagem Docker
 
 #### job-migration
-  - 
+  - Kubernetes
+    - Job
+    - Secrets
+    - ConfigMap
+  - Imagem Docker
 
 #### job-csv
-  - 
+  - Kubernetes
+    - Cronjob
+    - Secrets
+    - ConfigMap
+    - PersistentVolume (NFS)
+    - PersistentVolumeClaim (ReadWriteOnce)
+  - Imagem Docker
 
 #### consumer
-  -
+  - Kubernetes
+    - Pod
+    - Deployment
+    - Secrets
+    - ConfigMap
+  - Imagem Docker
 
 #### redis
-  - 
+  - Kubernetes
+    - Pod
+    - Deployment
+    - Service (ClusterIP)
+  - Imagem Docker
 
 #### mysql-master
-  -
+  - Kubernetes
+    - Pod
+    - StatefulSet (1 replica)
+    - Secret
+    - ConfigMap*
+  - Imagem Docker
 
 #### mysql-replica
-  -
+  - Kubernetes
+    - Pod
+    - StatefulSet (1 replica)
+    - Secret
+    - ConfigMap*
+  - Imagem Docker

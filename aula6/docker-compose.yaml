@@ -8,7 +8,7 @@ services:
       - redis
       - mysql-master
     environment:
-      - DB_HOST=mysql-slave
+      - DB_HOST=mysql-replica
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase
@@ -57,7 +57,7 @@ services:
     command: ["./wait-for-it.sh", "mysql-master:3306", "--", "python", "app.py"]
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
     depends_on:
       - api
       - mysql-master
@@ -73,7 +73,7 @@ services:
 
   job-csv:
     build: ./job-csv
-    command: ["./wait-for-it.sh", "mysql-slave:3306", "--", "python", "app.py"]
+    command: ["./wait-for-it.sh", "mysql-replica:3306", "--", "python", "app.py"]
     depends_on:
       - mysql-replica
     volumes:
