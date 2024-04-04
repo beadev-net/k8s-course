@@ -40,6 +40,22 @@ A aplicação `consumer` pode/deve ser escalada horizontalmente, pois ela é res
 
 ---
 
+## Como subir o ambiente?
+
+#### Subir os Containers
+
+```sh
+docker compose up -d
+```
+
+#### Habilitar Replica MySQL
+
+```sh
+sh mysqld.sh
+```
+
+---
+
 ## Diagrama de arquitetura
 
 ![architecture](architecture.jpg)
