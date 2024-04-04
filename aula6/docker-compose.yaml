@@ -8,7 +8,7 @@ services:
       - redis
       - mysql-master
     environment:
-      - DB_HOST=mysql-master
+      - DB_HOST=mysql-slave
       - DB_USER=root
       - DB_PASSWORD=your_password
       - DB_DATABASE=mydatabase

@@ -38,6 +38,11 @@ docker compose build frontend --build-arg API_URL=http://localhost:80000
 
 A aplicação `consumer` pode/deve ser escalada horizontalmente, pois ela é responsável por salvar os votos no MySQL.
 
+---
+
+## Diagrama de arquitetura
+
+![architecture](architecture.jpg)
 
 ---
 
@@ -66,4 +71,4 @@ A aplicação `consumer` pode/deve ser escalada horizontalmente, pois ela é res
   -
 
 #### mysql-replica
-  - 
+  -
