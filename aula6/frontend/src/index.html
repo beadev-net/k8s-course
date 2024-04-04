@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container">
+    <h1>Surveys</h1>
+    <ul id="surveys-list" class="surveys-list">
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const surveysList = document.getElementById('surveys-list');
+
+            const apiUrl = 'http://localhost:8000';
+
+            fetch(`${apiUrl}/surveys`)
+                .then(response => response.json())
+                .then(data => {
+                    survey = data.surveys;
+                    survey.forEach(survey => {
+                        const a = document.createElement('a');
+                        const li = document.createElement('li');
+                        const span = document.createElement('span');
+                        
+                        a.href = 'vote.html?survey=' + survey.id;
+
+                        span.textContent = survey.name;
+                        span.className = 'survey-name';
+                        li.className = 'survey';
+
+                        // const img = document.createElement('img');
+                        // img.src = 'https://source.unsplash.com/random?name=' + survey.name;
+                        // img.alt = survey.name;
+                        
+                        a.appendChild(span);
+                        // a.appendChild(img);
+                        
+                        li.appendChild(a);
+                        surveysList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os surveys:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

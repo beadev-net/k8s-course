@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votação</title>
+  <link rel="stylesheet" href="vote.css">
+</head>
+
+<body>
+  <div class="container">
+    <a href=".">Voltar</a>
+    <h1 id="survey-name"></h1>
+    <div id="choices" class="image-container"></div>
+  </div>
+
+  <script>
+    const apiUrl = "http://localhost:8000";
+    const searchParams = new URLSearchParams(window.location.search);
+    const survey = searchParams.get("survey");
+
+    document.addEventListener('DOMContentLoaded', function () {
+      getSurvey();
+    });
+
+    function getSurvey() {
+      fetch(`${apiUrl}/surveys/${survey}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro ao buscar a enquete");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          document.getElementById("survey-name").textContent = data.name;
+          const choices = document.getElementById("choices")
+          for (let i = 0; i < data.choices.length; i++) {
+            const choice = data.choices[i];
+
+            const button = document.createElement("button");
+            button.className = "button";
+            button.textContent = choice;
+            
+            button.addEventListener("click", function() {
+              votar(choice)
+            });
+
+            const frame = document.createElement("div");
+            frame.className = "frame";
+
+            frame.appendChild(button);
+            choices.insertBefore(frame, choices.childNodes[choices.childNodes.length - 1]);
+          }
+          console.log(data)
+        })
+        .catch((error) => {
+          alert("Erro ao buscar a enquete: " + error.message);
+        });
+    }
+
+    function votar(vote) {
+      console.log(vote)
+      fetch(`${apiUrl}/vote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ vote: vote, survey_id: survey }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro ao votar");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          alert("Voto registrado com sucesso!");
+        })
+        .catch((error) => {
+          alert("Erro ao votar: " + error.message);
+        });
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+flask
+flask-cors
+redis
+waitress
+mysql-connector-python

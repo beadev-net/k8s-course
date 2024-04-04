@@ -1,0 +1,2 @@
+redis
+mysql-connector-python

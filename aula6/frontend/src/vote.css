@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff; /* Fundo branco */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.versus {
+  font-size: 24px;
+  font-weight: bold;
+  color: #555;
+  margin: 0 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  min-width: 150px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-radius: 20px; /* Borda arredondada */
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

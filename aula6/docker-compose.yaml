@@ -1,0 +1,68 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - "8000:5000"
+    depends_on:
+      - redis
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=your_password
+      - DB_DATABASE=mydatabase
+      - REDIS_HOST=redis
+    volumes:
+      - ./api/src:/app
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password
+      MYSQL_DATABASE: mydatabase
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend/src:/usr/share/nginx/html
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+
+  consumer:
+    build: ./consumer
+    deploy:
+      mode: replicated
+      replicas: 3
+    depends_on:
+      - api
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=your_password
+      - DB_DATABASE=mydatabase
+      - REDIS_HOST=redis
+    volumes:
+      - ./consumer/src:/app
+
+  job:
+    build: ./job
+    depends_on:
+      - api
+    volumes:
+      - ./job/src:/app
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=your_password
+      - DB_DATABASE=mydatabase
+      - REDIS_HOST=redis
