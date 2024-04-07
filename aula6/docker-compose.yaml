@@ -1,12 +1,12 @@
 services:
   api:
     build: ./api
-    command: ["./wait-for-it.sh", "mysql-master:3306", "--", "python", "app.py"]
+    command: ["./wait-for-it.sh", "mysql-replica:3306", "--", "python", "app.py"]
     ports:
       - "8000:5000"
     depends_on:
       - redis
-      - mysql-master
+      - mysql-replica
     environment:
       - DB_HOST=mysql-replica
       - DB_USER=root
