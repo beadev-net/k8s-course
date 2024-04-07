@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: job-migration-secret
+  namespace: aula6
+type: Opaque
+data:
+  db_user: cm9vdA==
+  db_password: eW91cl9wYXNzd29yZA==
+  db_database: bXlkYXRhYmFzZQ==
+  db_host: bXlzcWwtbWFzdGVyLXNlcnZpY2UuYXVsYTYuc3ZjLmNsdXN0ZXIubG9jYWw=
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-migration
+  namespace: aula6
+spec:
+  template:
+    spec:
+      containers:
+      - name: job-migration
+        image: job-migration:1.0.0
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: job-migration-secret
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: job-migration-secret
+              key: db_password
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: job-migration-secret
+              key: db_database
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: job-migration-secret
+              key: db_host
+      restartPolicy: Never
+  backoffLimit: 4

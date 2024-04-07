@@ -50,7 +50,7 @@ cursor.execute(query)
 
 results = cursor.fetchall()
 
-csv_file = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".csv"
+csv_file = '/data/' + datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".csv"
 
 with open(csv_file, mode='w', newline='') as file:
     writer = csv.writer(file)

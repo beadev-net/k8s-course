@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: job-csv-secret
+  namespace: aula6
+type: Opaque
+data:
+  db_user: cm9vdA==
+  db_password: eW91cl9wYXNzd29yZA==
+  db_database: bXlkYXRhYmFzZQ==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-csv-config
+  namespace: aula6
+data:
+  db_host: "mysql-replica-service.aula6.svc.cluster.local"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: job-csv-data
+  namespace: aula6
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-csv
+  namespace: aula6
+spec:
+  schedule: "*/1 * * * *" # Runs every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: job-csv
+            image: job-csv:1.0.0
+            env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: job-csv-secret
+                  key: db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: job-csv-secret
+                  key: db_password
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: job-csv-secret
+                  key: db_database
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: job-csv-config
+                  key: db_host
+            volumeMounts:
+              - name: job-csv-data
+                mountPath: /data
+          volumes:
+            - name: job-csv-data
+              persistentVolumeClaim:
+                claimName: job-csv-data
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1

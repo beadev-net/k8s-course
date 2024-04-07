@@ -8,6 +8,8 @@ ENV PYTHONUNBUFFERED 1
 # Define o diretório de trabalho no contêiner
 WORKDIR /app
 
+RUN mkdir /data && chmod 777 /data
+
 # Copia o arquivo de dependências para o diretório de trabalho
 COPY requirements.txt .
 
