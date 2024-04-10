@@ -69,7 +69,7 @@ sh mysqld.sh
   - Kubernetes
     - Pod
     - Deployment
-    - Service (ClusterIP)
+    - Service (NodePort)
     - Secrets
     - ConfigMap
   - Imagem Docker

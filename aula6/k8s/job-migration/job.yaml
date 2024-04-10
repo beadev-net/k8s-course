@@ -42,5 +42,5 @@ spec:
             secretKeyRef:
               name: job-migration-secret
               key: db_host
-      restartPolicy: Never
+      restartPolicy: OnFailure
   backoffLimit: 4
