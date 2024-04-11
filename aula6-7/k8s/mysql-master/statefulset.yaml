@@ -34,7 +34,6 @@ data:
     server-id=1
     binlog-format=ROW
     bind-address=0.0.0.0
-    initizalize-insecure=1
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -79,8 +78,8 @@ spec:
         volumeMounts:
         - name: mysql-master-data
           mountPath: /var/lib/mysql
-        # - name: config-volume
-        #   mountPath: /etc/mysql/conf.d
+        - name: config-volume
+          mountPath: /etc/mysql/conf.d
       volumes:
       - name: config-volume
         configMap:

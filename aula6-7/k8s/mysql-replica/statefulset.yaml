@@ -68,6 +68,9 @@ data:
 
     echo "[REPLICA] RUNNING"
     exit 0
+  my.cnf: |
+    [mysqld]
+    server-id=2
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -121,8 +124,8 @@ spec:
         volumeMounts:
         - name: mysql-replica-data
           mountPath: /var/lib/mysql
-        # - name: config-volume
-        #   mountPath: /scripts
+        - name: config-volume
+          mountPath: /etc/mysql/conf.d
       
       volumes:
       - name: config-volume
