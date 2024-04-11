@@ -1,0 +1,54 @@
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: user2
+  namespace: aula8
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  expirationSeconds: 86400
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ2R6Q0NBVjhDQVFBd01qRU9NQXdHQTFVRUF3d0ZkWE5sY2pJeER6QU5CZ05WQkFvTUJtZHliM1Z3TVRFUApNQTBHQTFVRUNnd0daM0p2ZFhBeU1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBCm9oZFdDTDJ0UnlvRGpSL0x5ckNFQWtMY3JEMU8ySytHOEFvaVhWdEpzT2NWMlova0xCSXYxMkhsbG9mb3ExVzEKcWFkVjhROWUyZGNkN25JNkFzU2w4KzhmdHg3SGh1ZE9Pa1I0djJPMlZGMVF4SmJqaDVXb05kVGg1TjJtcjlKcworOXEzb1NySDUranEySjF4cDBGODVwNWFHck4xN0NOY0RPNDlWUUVRMjErQXJNWlhvQ2p1YmN2cmVPY2JxaTFhCm9OZEptK2t4blNpYmlJRzVSSWxUei9FdXV3dUJ4QmxOWDRtZzc0MkltNHltekg4NEE3dGNZL08wNzdDdFFOS20KK0pUR3NFMWlGbklzOWJqYWJUOThtMUhPYnhkakNBaE1DdWVDQnF4clBnN1cxTm5rQ3h0bVd3b2N1MDdEQ2wwZQpjSlpvcXVpM1E2d0RvOUREL1RUM1p3SURBUUFCb0FBd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFFQUFGRlVmCmxVak10NDdCVzZhWXAwNDIrNkdla2xlWHF6ek4rakVJbzQ2Q25LRTY4UnJrOGh3bjlwQlZYMC8yS3dqRW5vMU0Kb0FmKzN0NzhIZ1AyVTgyTHVRRExSYnpGWGtlalNRTlRhV1VnYUVFMlQ5TnF4NHA1SXd5QUNuWjQ1Q2syN2xHKwo4T0NMN0lCRCtCOUJaaCtpSDFMbi9TcmtCdjRQUEIyalMvL0tWQ1JmNGVHTEErWjYrNTR1NVNZQlZ3UjJiNmhHCndmRkNjaXpQOUt3bENrTnVSclJmYWozYlpnS1VsNWhDaGZENThCVHZVWDNBRzNVTEs4ZUd1bHc3aXpSK3RyTXAKTTlTb3FQbmNkdFlkZVJ6OG00b3dzMHhRSEltNEFkRk11R0RMWUxEOHptc3VQQUNtM0xjY1hKbjZiOVpKZEtUOQo1QWUzKzJ6M2R1YkJUSE09Ci0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
+  usages: 
+    - 'digital signature'
+    - 'key encipherment'
+    - 'client auth'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+  namespace: aula8
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - get
+  - list
+  - update
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding-user2
+  namespace: aula8
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: developer
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-binding-user2
+  namespace: aula8
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - apiGroup: ""
+    kind: User
+    name: user2
