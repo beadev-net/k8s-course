@@ -5,7 +5,7 @@ metadata:
   name: example-role
 rules:
   - apiGroups: [""]
-    resources: ["namespaces","pods"]
+    resources: ["namespaces","pods", "secrets"]
     verbs: ["get", "watch", "list"]
 ---
 kind: ClusterRoleBinding
@@ -17,6 +17,6 @@ roleRef:
   kind: ClusterRole
   name: example-role
 subjects:
-- kind: Group
+- kind: Groups
   name: "oidc:Minikube Devs"
   apiGroup: rbac.authorization.k8s.io

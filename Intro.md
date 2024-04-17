@@ -70,7 +70,7 @@
 # Volumes:
 - EmptyDir ✅
 - HostPath ✅
-- PersistentVolume ❌
+- PersistentVolume ✅
 - PersistentVolumeClaim ✅
 - StorageClass ❌
 

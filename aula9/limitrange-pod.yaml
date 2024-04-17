@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: example-limitrange-pod
+  namespace: aula9
+spec:
+  limits:
+    - type: Pod
+      max:
+        cpu: "2"
+        memory: "1Gi"
+      min:
+        cpu: "200m"
+        memory: "100Mi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-limitrange-pod
+  namespace: aula9
+spec:
+  containers:
+    - name: busybox-1
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: "200m"
+          memory: "100Mi"
+        limits:
+          cpu: "2" # A soma dos limites de cpu dos containers é maior que o limite do pod
+          memory: "500Mi"
+    - name: busybox-2
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: "200m"
+          memory: "100Mi"
+        limits:
+          cpu: "1"
+          memory: "500Mi"

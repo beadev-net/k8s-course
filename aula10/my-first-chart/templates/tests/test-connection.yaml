@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "my-first-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "my-first-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  template:
+    spec:
+      containers:
+        - name: wget
+          image: busybox
+          command: ['wget']
+          args: ['{{ include "my-first-chart.fullname" . }}:{{ .Values.service.port }}']
+      restartPolicy: Never
