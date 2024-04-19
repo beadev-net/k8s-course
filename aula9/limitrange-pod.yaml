@@ -25,7 +25,7 @@ spec:
       command: ["sleep", "3600"]
       resources:
         requests:
-          cpu: "200m"
+          cpu: "100m"
           memory: "100Mi"
         limits:
           cpu: "2" # A soma dos limites de cpu dos containers é maior que o limite do pod
@@ -35,7 +35,7 @@ spec:
       command: ["sleep", "3600"]
       resources:
         requests:
-          cpu: "200m"
+          cpu: "100m"
           memory: "100Mi"
         limits:
           cpu: "1"

@@ -12,7 +12,7 @@ kubectl apply -f limitrange-container.yaml
 # ResourceQuota
 
 ```sh
-minikube start minikube start --driver docker --ports=8080:80,30082:30082 --extra-config=kubelet.housekeeping-interval=10s --kubernetes-version=v1.29 --extra-config=apiserver.enable-admission-plugins=ResourceQuota
+minikube start --driver docker --extra-config=kubelet.housekeeping-interval=10s --kubernetes-version=v1.29 --extra-config=apiserver.enable-admission-plugins=ResourceQuota
 ```
 
 # Monitoramento de Cluster com Prometheus e Grafana - Helm

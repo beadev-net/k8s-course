@@ -6,10 +6,16 @@ metadata:
 spec:
   limits:
     - type: Container
-      max:
+      max: # Informar mais que isso, nao vai ser deployado
         cpu: "2"
         memory: "1Gi"
-      min:
+      min: # Informar menos que isso, nao vai ser deployado
+        cpu: "200m"
+        memory: "100Mi"
+      default: # Nao informar limit, vai considerar esse aqui
+        cpu: "500m"
+        memory: "500Mi"
+      defaultRequest: # Nao informar request, vai considerar esse aqui
         cpu: "200m"
         memory: "100Mi"
 ---
