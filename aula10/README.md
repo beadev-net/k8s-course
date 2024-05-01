@@ -13,3 +13,8 @@ helm upgrade --install my-first-chart .
 ```sh 
 helm uninstall my-first-chart
 ```
+
+```sh
+cd aula10/my-first-chart/
+helm lint
+```
