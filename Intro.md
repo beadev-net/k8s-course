@@ -28,9 +28,9 @@
 - Rolling Update ✅
 - Liveness Probe ✅
 - Readiness Probe ✅
-- Startup Probe ❌
-- Paused Rollout ❌
-- Rollback ❌
+- Startup Probe ✅
+- Paused Rollout ✅
+- Rollback ✅
 
 ## StatefulSets ✅
 - Pod Identity ✅
@@ -43,9 +43,9 @@
 
 ## Jobs
 - Run to completion ✅
-- Parallel or Sequential ❌
+- Parallel or Sequential ✅
 - Restart Policy ✅
-- TTL ❌
+- TTL ✅
 
 ## CronJobs
 - Schedule Jobs ✅
@@ -53,7 +53,7 @@
 - Concurrency Policy
 - History Limit ✅
 
-## DaemonSets ❌
+## DaemonSets ✅
 - Run a copy of a Pod on each Node
 - Monitoring, Logging, Networking, Storage, etc
 - Node-specific tasks
@@ -72,7 +72,7 @@
 - HostPath ✅
 - PersistentVolume ✅
 - PersistentVolumeClaim ✅
-- StorageClass ❌
+- StorageClass ✅
 
 # Configs:
 - ConfigMap ✅
@@ -82,11 +82,11 @@
 - Pod to Pod (FQDN - FULL QUALIFIED DOMAIN NAME - ip-do-pod.namespace.svc.cluster.local) ✅
 - Pod to Service (FQDN - service.namespace.svc.cluster.local) ✅
 - Ingress ✅
-- Endpoint ❌
-- EndpointSlices ❌
-- IpTables ❌
+- Endpoint ✅
+- EndpointSlices ✅
+- IpTables ✅
 
 # Security
 - Pod Security Policy ❌
 - Network Policy ❌
-- RBAC ❌
+- RBAC ✅

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.componentName }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.componentName }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.componentName }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Values.componentName }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.port }}
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.componentName }}-config

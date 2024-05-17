@@ -1,0 +1,9 @@
+componentName: meu-nginx
+replicaCount: 3
+
+image:
+  repository: custom-nginx
+  tag: "3.0"
+  pullPolicy: IfNotPresent
+
+port: 9090

@@ -21,9 +21,9 @@ minikube start --driver docker --extra-config=kubelet.housekeeping-interval=10s 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
-helm install latest prometheus-community/kube-prometheus-stack
+helm install prom-stack prometheus-community/kube-prometheus-stack
 
-kubectl port-forward svc/latest-grafana 8082:80
+kubectl port-forward svc/prom-stack-grafana 8082:80
 ```
 
 **Browser:** [http://localhost:8082](http://localhost:8082)

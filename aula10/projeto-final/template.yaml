@@ -1,0 +1,107 @@
+---
+# Source: projeto-final/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-projeto-final
+  labels:
+    helm.sh/chart: projeto-final-0.1.0
+    app.kubernetes.io/name: projeto-final
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: projeto-final/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-projeto-final
+  labels:
+    helm.sh/chart: projeto-final-0.1.0
+    app.kubernetes.io/name: projeto-final
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: projeto-final
+    app.kubernetes.io/instance: release-name
+---
+# Source: projeto-final/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-projeto-final
+  labels:
+    helm.sh/chart: projeto-final-0.1.0
+    app.kubernetes.io/name: projeto-final
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    hoje: 2024x05x02 19:37:23.766865 x0300 x03 m=+0.149111168
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: projeto-final
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: projeto-final-0.1.0
+        app.kubernetes.io/name: projeto-final
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name-projeto-final
+      securityContext:
+        {}
+      containers:
+        - name: projeto-final
+          securityContext:
+            {}
+          image: "nginx:1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+---
+# Source: projeto-final/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-projeto-final-test-connection"
+  labels:
+    helm.sh/chart: projeto-final-0.1.0
+    app.kubernetes.io/name: projeto-final
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-projeto-final:80']
+  restartPolicy: Never
